@@ -1,4 +1,7 @@
+import 'package:bloc_to_bloc_commuication/cubits/color_cubit.dart';
+import 'package:bloc_to_bloc_commuication/cubits/counter_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CubitcommPage extends StatelessWidget {
   @override
@@ -7,41 +10,53 @@ class CubitcommPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Cubit-To-Cubit Comm'),
       ),
-      body: Container(
-        color: Colors.red,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '0',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 60,
-              ),
-            ),
-            SizedBox(height: 30.0),
-            Row(
+      body: BlocBuilder<ColorCubit, Color>(
+        builder: (context, colorState) {
+          return Container(
+            color: colorState,
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                RaisedButton(
-                  child: Text(
-                    'Next Color',
-                    style: TextStyle(fontSize: 18.0),
-                  ),
-                  onPressed: () {},
+                BlocBuilder<CounterCubit, int>(
+                  builder: (context, counterState) {
+                    return Text(
+                      '$counterState',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 60,
+                      ),
+                    );
+                  },
                 ),
-                SizedBox(width: 20),
-                RaisedButton(
-                  child: Text(
-                    'Next Number',
-                    style: TextStyle(fontSize: 18.0),
-                  ),
-                  onPressed: () {},
+                SizedBox(height: 30.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RaisedButton(
+                      child: Text(
+                        'Next Color',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                      onPressed: () {
+                        BlocProvider.of<ColorCubit>(context).nextColor();
+                      },
+                    ),
+                    SizedBox(width: 20),
+                    RaisedButton(
+                      child: Text(
+                        'Next Number',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                      onPressed: () {
+                        BlocProvider.of<CounterCubit>(context).nextCounter();
+                      },
+                    )
+                  ],
                 )
               ],
-            )
-          ],
-        ),
+            ),
+          );
+        },
       ),
     );
   }

@@ -1,4 +1,6 @@
 import 'package:bloc_to_bloc_commuication/blocs/counter_bloc.dart';
+import 'package:bloc_to_bloc_commuication/cubits/color_cubit.dart';
+import 'package:bloc_to_bloc_commuication/cubits/counter_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc_comm_page.dart';
@@ -14,6 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        // Bloc to Bloc
         BlocProvider(
           create: (context) => ColorBloc(),
         ),
@@ -21,7 +24,17 @@ class MyApp extends StatelessWidget {
           create: (context) => CounterBloc(
             colorBloc: BlocProvider.of<ColorBloc>(context),
           ),
-        )
+        ),
+
+        // Cubit to Cubit
+        BlocProvider(
+          create: (context) => ColorCubit(),
+        ),
+        BlocProvider(
+          create: (context) => CounterCubit(
+            colorCubit: BlocProvider.of<ColorCubit>(context),
+          ),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
